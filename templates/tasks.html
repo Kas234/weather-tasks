@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+    {% for task in tasks %}
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="task-card d-flex justify-content-between mb-3">
+
+            <div>
+
+                <p>Title:{{task["title"]}} </p>
+                <p>Description:{{task["desc"]}}</p>
+                <p>Category:{{task["category"]}}</p>
+                <p>Urgency:{{task["urgency"]}}</p>
+
+                            
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#id{{task['_id']}}">
+                    Usuń
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="id{{task['_id']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure? Task delete</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <form method="post" action="/delete-task/{{task['_id']}}">
+                <button class="btn btn-danger">tak, usuń</button>
+                </form>
+        
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    {% endfor %}
+</div>
+
+
+<button class="btn btn-primary add-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+    aria-controls="offcanvasRight"><i class="bi bi-file-earmark-plus"></i>
+</button>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form method="post" action="/add-task">
+            <div class="mb-3">
+                <label for="Title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="Title" placeholder="Type task title" name="title" required
+                    minlength="5">
+            </div>
+
+            <div class="mb-3">
+                <label for="Desc" class="form-label">Description</label>
+                <input type="text" class="form-control" id="Desc" placeholder="Type a short description" name="desc"
+                    required minlength="10">
+            </div>
+            <div class="mb-3">
+                <label for="Category" class="form-label">Category</label>
+                <select required name="category" id="Category" class="form-select" aria-label="Default select example">
+                    <option value="" disabled selected>Select category</option>
+                    <option value="hobby">Hobby</option>
+                    <option value="food">Food</option>
+                    <option value="job">Job</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="Urgency" class="form-label">Urgency</label>
+                <select required name="urgency" id="Urgency" class="form-select" aria-label="Default select example">
+                    <option value="" disabled selected>Select category</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary">CREATE</button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}
